@@ -25,25 +25,26 @@
       </text>\n 
     </svg>\n
 </button>
-<div x="300" y="300"> 
+<div style="background:white"> 
   <text id="explanation" font-size="18px"\n  
         fill="white" dominant-baseline="middle" text-anchor="middle">\n     
               Explanation?\n   
   </text>
 </div>\n `;
-  let container = document.createElement("div"),
-    shadow = container.attachShadow({
-      mode: "open",
-    }),
-    dialog = document.createElement("dialog");
+  let container = document.createElement("div");
+  let shadow = container.attachShadow({
+    mode: "open",
+  });
 
+  let dialog = document.createElement("dialog");
   shadow.resetStyleInheritance = true;
   dialog.style.background = "none";
   dialog.style.border = "none";
+  dialog.style.display = "flex";
+  dialog.style.flexDirection = "column";
   shadow.appendChild(dialog);
   dialog.id = "areyousure";
   dialog.innerHTML = CONTENT;
-
   dialog.addEventListener("cancel", function (e) {
     return e.preventDefault();
   });
@@ -77,19 +78,20 @@
   let timer = null;
   let completed = false;
   let button = dialog.querySelector("button");
-  let text = dialog.querySelector("text");
-  let explanation = document.getElementById("explanation");
+  let textElements = dialog.querySelectorAll("text");
+  let buttonText = textElements[0];
+  let explanation = textElements[1];
 
   chrome.storage.sync.get(
     {
       holdTime: 2,
       backdropOpacity: 0.8,
-      explanation: "productivity",
+      explanation: "Default",
     },
     function (opts) {
       setStyles(opts);
 
-      explanation.textContent = opts.explanation + "With My Addition!!";
+      explanation.textContent = opts.explanation;
 
       let start = function (ev) {
         if (!(ev.button === 0 || ev.code === "Space")) {

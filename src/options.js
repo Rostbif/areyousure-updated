@@ -18,7 +18,7 @@
       holdTime: 2,
       cooldown: 5,
       backdropOpacity: 0.8,
-      explanation: "productivity",
+      explanation: "Default",
     },
     catchError(function (args) {
       let site;
@@ -99,7 +99,7 @@
   $("#explanation").addEventListener("input", function () {
     return storage.set(
       {
-        explanation: "#explanation".value,
+        explanation: $("#explanation").value,
       },
       catchError()
     );
