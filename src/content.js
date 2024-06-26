@@ -43,6 +43,8 @@
   dialog.style.display = "flex";
   dialog.style.flexDirection = "column";
   shadow.appendChild(dialog);
+
+  // We are doing that to make sure all of our css changes are only for the ones that inside our dialog
   dialog.id = "areyousure";
   dialog.innerHTML = CONTENT;
   dialog.addEventListener("cancel", function (e) {
