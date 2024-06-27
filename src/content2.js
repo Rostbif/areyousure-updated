@@ -5,32 +5,32 @@
   }
 
   const CONTENT = `
-  <button hidden>\n  
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"\n    viewBox="0 0 240 240">\n\n 
-      <filter id="areyousure-dropshadow" height="130%">\n      
-        <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>\n       
-        <feOffset dx="2" dy="0" result="offsetblur"/>\n       
-        <feComponentTransfer>\n       
-        <feFuncA type="linear" slope="0.5"/>\n  
-        </feComponentTransfer>\n   
-        <feMerge>\n        
-        <feMergeNode/>\n       
-        <feMergeNode in="SourceGraphic"/>\n       
-        </feMerge>\n      
-      </filter>\n\n   
-      <circle id="areyousure-circle" cx="120" cy="120" r="100" style="filter:url(#areyousure-dropshadow)"/>\n 
-      <text id="areyousure-text" x="120" y="120" font-size="24px"\n  
-      fill="white" dominant-baseline="middle" text-anchor="middle">\n     
-            Are you sure?\n   
-      </text>\n 
-    </svg>\n
-</button>
-<div style="background:white"> 
-  <text id="explanation" font-size="18px"\n  
+    <button hidden>\n  
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1"\n    viewBox="0 0 240 240">\n\n 
+        <filter id="areyousure-dropshadow" height="130%">\n      
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>\n       
+          <feOffset dx="2" dy="0" result="offsetblur"/>\n       
+          <feComponentTransfer>\n       
+          <feFuncA type="linear" slope="0.5"/>\n  
+          </feComponentTransfer>\n   
+          <feMerge>\n        
+          <feMergeNode/>\n       
+          <feMergeNode in="SourceGraphic"/>\n       
+          </feMerge>\n      
+        </filter>\n\n   
+        <circle id="areyousure-circle" cx="120" cy="120" r="100" style="filter:url(#areyousure-dropshadow)"/>\n 
+        <text id="areyousure-text" x="120" y="120" font-size="24px"\n  
         fill="white" dominant-baseline="middle" text-anchor="middle">\n     
-              Explanation?\n   
-  </text>
-</div>\n `;
+              Are you sure?\n   
+        </text>\n 
+      </svg>\n
+  </button>
+  <div style="background:white"> 
+    <text id="explanation" font-size="18px"\n  
+          fill="white" dominant-baseline="middle" text-anchor="middle">\n     
+                Explanation?\n   
+    </text>
+  </div>\n `;
   let container = document.createElement("div");
   let shadow = container.attachShadow({
     mode: "open",
@@ -88,13 +88,24 @@
     {
       holdTime: 2,
       backdropOpacity: 0.8,
-      explanation: "Default",
+      defaultExplanation: "Default",
       sites: [],
     },
     function (opts) {
       setStyles(opts);
 
-      explanation.textContent = opts.explanation;
+      let site = opts.sites.find(
+        (s) => "www." + s.hostSuffix == window.location.hostname
+      );
+
+      // if (site && site.useDefaultExplanation) {
+      // // get the current tab domain name
+      // explanation.textContent = site.explanation;
+      // }
+
+      explanation.textContent = site.useDefaultExplanation
+        ? opts.defaultExplanation
+        : site.explanation;
 
       let start = function (ev) {
         if (!(ev.button === 0 || ev.code === "Space")) {
@@ -154,4 +165,12 @@
       });
     }
   );
+
+  chrome.runtime.onMessage.addListener(function (msg) {
+    console.log(msg);
+    if (msg.explanation) {
+      // explanation.textContent = msg.explanation;
+      console.log("Message reached!!" + msg.explanation);
+    }
+  });
 }).call(this);

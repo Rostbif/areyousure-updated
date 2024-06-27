@@ -25,16 +25,17 @@
       {
         hostSuffix: "mako.co.il",
         useDefaultExplanation: true,
-        explanation: "Distraction",
+        explanation: "Productivity",
       },
     ],
     urlRegex = /^(([^:\/?#]+):)?(\/\/([^\/:?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
 
   let storage = chrome.storage.sync,
     cooldown = 5,
-    filter = {
-      url: DEFAULT_SITES.map((site) => ({ hostSuffix: site.hostSuffix })),
-    };
+    fullSites = DEFAULT_SITES;
+  let filter = {
+    url: DEFAULT_SITES.map((site) => ({ hostSuffix: site.hostSuffix })),
+  };
 
   /* The listener is where most of the action happens. This code fires on page navigate and is where we inject the content script.
      At this point filtering has already happened so we must be on one of the sites in our filter list. */
@@ -44,15 +45,34 @@
       return;
     }
 
-    return chrome.tabs.executeScript(event.tabId, {
-      file: "src/content.js",
+    let contentScriptExecuting = chrome.tabs.executeScript(event.tabId, {
+      file: "src/content2.js",
       runAt: "document_start",
     });
+
+    let currentTabUrlBroken = urlRegex.exec(event.url);
+    let domain =
+      currentTabUrlBroken != null ? currentTabUrlBroken[4] : undefined;
+
+    // if we couldn't find the domain then we stop running the function.
+    if (!domain) {
+      console.log("No domain found");
+      return;
+    }
+
+    // find the current site object
+    let theCurrentSiteObject = fullSites.find((site) =>
+      domain.match(new RegExp(site.hostSuffix + "$"))
+    );
+    let explanation = theCurrentSiteObject.explanation;
+
+    chrome.tabs.sendMessage(event.tabId, { explanation: explanation });
+
+    return contentScriptExecuting;
   };
 
   let tabReplacedListener = function (event) {
     return chrome.tabs.get(event.tabId, function (tab) {
-      //
       let currentTabUrlBroken = urlRegex.exec(tab.url);
       let domain =
         currentTabUrlBroken != null ? currentTabUrlBroken[4] : undefined;
@@ -108,8 +128,11 @@
         return;
       }
       if (Array.isArray(result.sites)) {
+        fullSites = result.sites;
         filter = {
-          url: result.sites,
+          url: result.sites.map((site) => ({
+            hostSuffix: site.hostSuffix,
+          })),
         };
       }
       if (result.cooldown) {
@@ -128,6 +151,7 @@
     // if we have results for the sites, we should assign them to the filter.
     //if not we should push the default values to the storage
     if (Array.isArray(result.sites)) {
+      fullSites = result.sites;
       filter = {
         url: result.sites.map((site) => ({
           hostSuffix: site.hostSuffix,

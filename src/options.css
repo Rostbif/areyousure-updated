@@ -11,7 +11,7 @@ h1 {
 
 .siteContainer {
   display: flex;
-  gap: 1px;
+  gap: 4px;
   align-items: center;
 }
 
@@ -23,4 +23,8 @@ h1 {
 
 #addSite {
   width: 100%;
+}
+
+.explanationInput {
+  flex: 1;
 }
