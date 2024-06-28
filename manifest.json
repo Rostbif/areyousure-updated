@@ -12,12 +12,12 @@
   },
 
   "background": {
-    "scripts": ["src/eventPage.js"],
+    "scripts": ["src/eventPage2.js"],
     "persistent": false
   },
 
   "options_ui": {
-    "page": "src/options.html",
+    "page": "src/options2.html",
     "chrome_style": true
   },
 

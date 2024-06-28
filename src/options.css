@@ -1,0 +1,30 @@
+/* .textArea {
+  background-color: brown;
+  color: violet;
+} */
+
+h1 {
+  font-family: "roboto", sans-serif;
+  color: rgb(24, 108, 108);
+  font-weight: bold;
+}
+
+.siteContainer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+#siteComponentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#addSite {
+  width: 100%;
+}
+
+.explanationInput {
+  flex: 1;
+}
