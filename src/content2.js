@@ -25,7 +25,10 @@
         </text>\n 
       </svg>\n
   </button>
-  <div style="background:white"> 
+  <div id="explanationContainer"> 
+    <div id="reminder" font-size="12px" style="font-weight:bold; margin-bottom: 2px">
+    You wanted us to remind you that</div>
+    <hr>
     <text id="explanation" font-size="18px"\n  
           fill="white" dominant-baseline="middle" text-anchor="middle">\n     
                 Explanation?\n   
@@ -58,7 +61,7 @@
   let staticStyle = document.createElement("link");
   staticStyle.rel = "stylesheet";
   staticStyle.type = "text/css";
-  staticStyle.href = chrome.runtime.getURL("src/content.css");
+  staticStyle.href = chrome.runtime.getURL("src/content2.css");
   shadow.appendChild(staticStyle);
 
   let dynamicStyle = document.createElement("style");

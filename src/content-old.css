@@ -1,6 +1,6 @@
 #areyousure {
   border: none;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
 }
 
 #areyousure::backdrop {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 #areyousure button {
@@ -30,13 +30,13 @@
 }
 
 #areyousure circle {
-  fill: #3F51B5;
-  stroke: #C5CAE9;
+  fill: #3f51b5;
+  stroke: #c5cae9;
   stroke-width: 10;
   stroke-dasharray: 628.3 628.3;
   stroke-dashoffset: -628.3;
   transition: stroke-dashoffset 0s linear;
-  transform: translate(120px,120px) rotate(90deg) translate(-120px,-120px);
+  transform: translate(120px, 120px) rotate(90deg) translate(-120px, -120px);
 }
 
 #areyousure button:active circle {
@@ -47,5 +47,5 @@
 #areyousure button.completed circle {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 0s linear;
-  fill: #C5CAE9;
+  fill: #c5cae9;
 }
