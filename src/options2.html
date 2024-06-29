@@ -3,9 +3,18 @@
 <html>
   <head>
     <link rel="stylesheet" href="options.css" />
+    <style>
+      body {
+        border: 1px solid black;
+        padding: 12px;
+        margin: 12px;
+        border-radius: 12px;
+        border-color: rgb(191, 197, 201);
+      }
+    </style>
   </head>
 
-  <body>
+  <body style="width: 650px">
     <h1><label for="holdTime">Hold time for button</label></h1>
     <input type="number" name="holdTime" id="holdTime" /> seconds
     <h1><label for="cooldown">Cooldown before button appears again</label></h1>
@@ -31,7 +40,7 @@
       <button id="addSite">Add Site</button>
       <div
         id="sitesContainer"
-        style="display: flex; flex-direction: column"
+        style="display: flex; flex-direction: column; gap: 8px"
       ></div>
     </div>
 
