@@ -7,6 +7,7 @@ I (Ofir) forked this project from the following repository, and made some improv
 
 The source is available at https://github.com/sgentle/areyousure 
 
+My goal was to practice developing a chrome extension.
 
 My Changes:
 --------------
